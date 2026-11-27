@@ -10,22 +10,34 @@
 
 ## 技術スタック
 
-<!-- TODO: 確定したら追記(例: 言語 / フレームワーク / DB / パッケージマネージャ) -->
+- React 19(JavaScript / JSX)
+- Vite 8
+- Lint: oxlint
+- パッケージマネージャ: npm
+- データ保存: なし(タスクはメモリ上の state のみ。リロードで消える)
 
 ## 開発コマンド
 
-<!-- TODO: 確定したら追記 -->
 ```bash
-# 依存関係のインストール
-# 開発サーバー起動
-# テスト実行
-# Lint / フォーマット
-# ビルド
+npm install      # 依存関係のインストール
+npm run dev      # 開発サーバー起動
+npm run lint     # Lint
+npm run build    # ビルド(dist/ に出力)
+npm run preview  # ビルド結果の確認
 ```
+
+テストは未導入。プッシュ前に最低限 `npm run lint` と `npm run build` を通すこと。
 
 ## ディレクトリ構成
 
-<!-- TODO: 構成が固まったら追記 -->
+```
+index.html       エントリ HTML
+src/main.jsx     React のマウント
+src/App.jsx      タスクボード本体(追加・完了切替・削除)
+src/App.css      ボードのスタイル(完了タスクのグレー表示を含む)
+src/index.css    全体の基本スタイル
+public/          静的ファイル(favicon)
+```
 
 ## Git 運用ルール
 

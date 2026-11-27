@@ -1,0 +1,10 @@
+:root {
+  font-family: system-ui, -apple-system, 'Hiragino Sans', 'Noto Sans JP', sans-serif;
+  line-height: 1.5;
+  color: #222;
+  background: #f7f7f9;
+}
+
+body {
+  margin: 0;
+}

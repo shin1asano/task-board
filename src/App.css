@@ -1,0 +1,105 @@
+.board {
+  max-width: 560px;
+  margin: 48px auto;
+  padding: 0 16px;
+}
+
+h1 {
+  font-size: 1.75rem;
+  margin: 0 0 24px;
+}
+
+.add-form {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 24px;
+}
+
+.add-form input {
+  flex: 1;
+  padding: 10px 12px;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+}
+
+.add-form input:focus {
+  outline: 2px solid #4f6bed;
+  outline-offset: -1px;
+  border-color: transparent;
+}
+
+button {
+  padding: 10px 16px;
+  font-size: 0.95rem;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.add-form button {
+  background: #4f6bed;
+  color: #fff;
+}
+
+.add-form button:disabled {
+  background: #b5bfe9;
+  cursor: not-allowed;
+}
+
+.task-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.task {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 12px;
+  border-bottom: 1px solid #eee;
+}
+
+.task label {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex: 1;
+  cursor: pointer;
+  word-break: break-word;
+}
+
+.task input[type='checkbox'] {
+  width: 18px;
+  height: 18px;
+  cursor: pointer;
+}
+
+/* 完了済みタスクはグレー表示 */
+.task.done .title {
+  color: #999;
+  text-decoration: line-through;
+}
+
+.delete {
+  background: transparent;
+  color: #c0392b;
+  padding: 6px 10px;
+}
+
+.delete:hover {
+  background: #fdecea;
+}
+
+.empty,
+.summary {
+  color: #888;
+  font-size: 0.9rem;
+}
+
+.summary {
+  text-align: right;
+  margin-top: 12px;
+}
