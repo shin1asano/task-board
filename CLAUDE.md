@@ -28,6 +28,12 @@ npm run preview  # ビルド結果の確認
 
 テストは未導入。プッシュ前に最低限 `npm run lint` と `npm run build` を通すこと。
 
+## デプロイ
+
+- GitHub Pages で公開: https://shin1asano.github.io/task-board/
+- `main` へのプッシュで `.github/workflows/deploy.yml` が lint → build → Pages デプロイを自動実行する
+- `vite.config.js` の `base` はビルド時のみ `/task-board/`。リポジトリ名を変えたらここも変える
+
 ## ディレクトリ構成
 
 ```
