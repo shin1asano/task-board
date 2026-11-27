@@ -4,17 +4,34 @@
 
 ## プロジェクト概要
 
-**task-board** — タスク管理ボードアプリケーション。
+**task-board** — ブラウザだけで動くシンプルなタスク管理アプリ。
 
-<!-- TODO: 目的・主な機能・対象ユーザーを追記 -->
+主な機能:
+- テキスト入力でタスクを追加
+- チェックボックスで完了・未完了を切り替え(完了済みはグレー+取り消し線で表示)
+- タスクの削除
+- タスクは localStorage に保存され、リロードしても残る
 
 ## 技術スタック
 
-- React 19(JavaScript / JSX)
-- Vite 8
-- Lint: oxlint
-- パッケージマネージャ: npm
-- データ保存: ブラウザの localStorage(キー `task-board:tasks`、タスク配列を JSON で保存)
+| 分類 | 採用技術 | 備考 |
+|---|---|---|
+| UI ライブラリ | React 19 | 関数コンポーネント + Hooks(`useState` / `useEffect`)のみ。クラスコンポーネントは使わない |
+| 言語 | JavaScript(JSX) | TypeScript は未導入 |
+| ビルドツール | Vite 8(`@vitejs/plugin-react`) | ES Modules(`"type": "module"`) |
+| スタイル | 素の CSS | コンポーネントと同名の `.css` を import。CSS フレームワーク・CSS-in-JS は未使用 |
+| 状態管理 | React の state のみ | Redux 等の外部ライブラリは未使用 |
+| データ保存 | localStorage | キー `task-board:tasks` にタスク配列を JSON で保存 |
+| Lint | oxlint | 設定は `.oxlintrc.json` |
+| パッケージマネージャ | npm | `package-lock.json` をコミットする |
+| CI / ホスティング | GitHub Actions + GitHub Pages | Node.js 24 でビルド |
+
+タスクのデータ形式:
+```js
+{ id: string /* crypto.randomUUID() */, title: string, done: boolean }
+```
+
+新しいライブラリを追加する場合は、事前にユーザーに確認すること。
 
 ## 開発コマンド
 
@@ -28,9 +45,11 @@ npm run preview  # ビルド結果の確認
 
 テストは未導入。プッシュ前に最低限 `npm run lint` と `npm run build` を通すこと。
 
-## デプロイ
+## デプロイ先
 
-- GitHub Pages で公開: https://shin1asano.github.io/task-board/
+https://shin1asano.github.io/task-board/
+
+- GitHub Pages で公開(リポジトリ: https://github.com/shin1asano/task-board)
 - `main` へのプッシュで `.github/workflows/deploy.yml` が lint → build → Pages デプロイを自動実行する
 - `vite.config.js` の `base` はビルド時のみ `/task-board/`。リポジトリ名を変えたらここも変える
 
@@ -87,15 +106,39 @@ public/          静的ファイル(favicon)
 - 秘密情報(`.env`、API キー、認証情報、`.claude/settings.local.json` など)をコミットしない。`.gitignore` に登録しておく
 - テストやビルドが壊れた状態でプッシュしない
 
-### 初期セットアップ(未実施の場合)
+### リモート
 
-```bash
-git init
-git branch -M main
-git remote add origin https://github.com/<ユーザー名>/task-board.git
-git push -u origin main
-```
+- `origin`: https://github.com/shin1asano/task-board.git
+- `main` へプッシュすると GitHub Pages へ自動デプロイされる点に注意する
 
 ## コーディング規約
 
-<!-- TODO: 命名規則・フォーマッタ設定などを追記 -->
+### コンポーネントの命名規約
+
+| 対象 | 規約 | 例 |
+|---|---|---|
+| コンポーネント名 | PascalCase、名詞で役割を表す | `App`, `TaskList`, `TaskItem`, `AddTaskForm` |
+| コンポーネントのファイル | コンポーネント名と同じ PascalCase + `.jsx` | `App.jsx`, `TaskItem.jsx` |
+| コンポーネント用 CSS | コンポーネントと同名の `.css` を同じ場所に置く | `App.jsx` ↔ `App.css` |
+| 配置場所 | ルートの `App` は `src/` 直下、それ以外は `src/components/` | `src/components/TaskItem.jsx` |
+| エクスポート | 1 ファイル 1 コンポーネント、`function` 宣言 + `export default` | `function TaskItem() {…}` / `export default TaskItem` |
+| イベント処理関数 | camelCase の「動詞 + 名詞」 | `addTask`, `toggleTask`, `deleteTask` |
+| イベント用 props | `on` + 動詞(PascalCase) | `onToggle`, `onDelete`, `onAdd` |
+| state | 名詞、更新関数は `set` + 名詞 | `[tasks, setTasks]`, `[text, setText]` |
+| 真偽値 | 状態を表す形容詞・過去分詞 | `done` |
+
+### その他の命名
+
+| 対象 | 規約 | 例 |
+|---|---|---|
+| 変数・関数 | camelCase | `remaining`, `loadTasks` |
+| モジュール定数 | UPPER_SNAKE_CASE | `STORAGE_KEY` |
+| CSS クラス | kebab-case。状態は別クラスで付与する | `task-list`, `add-form`, `task done` |
+| localStorage キー | `task-board:<名前>` | `task-board:tasks` |
+
+### 書き方
+
+- インデントはスペース 2 つ、文字列はシングルクォート、セミコロンなし(既存コードに合わせる)
+- state の更新は直接変更せず、新しい配列・オブジェクトを作る(`map` / `filter` / スプレッド構文)
+- ユーザーに見える文言は日本語で書く。アイコンだけのボタンなどには `aria-label` を付ける
+- コメントは日本語で、「なぜそうしているか」を書く
