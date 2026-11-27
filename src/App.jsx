@@ -1,8 +1,29 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import './App.css'
 
+const STORAGE_KEY = 'task-board:tasks'
+
+// 保存済みのタスクを読み込む。壊れたデータや未保存の場合は空配列を返す
+function loadTasks() {
+  try {
+    const saved = JSON.parse(localStorage.getItem(STORAGE_KEY))
+    return Array.isArray(saved) ? saved : []
+  } catch {
+    return []
+  }
+}
+
 function App() {
-  const [tasks, setTasks] = useState([])
+  const [tasks, setTasks] = useState(loadTasks)
+
+  // タスクが変わるたびにローカルストレージへ保存する
+  useEffect(() => {
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(tasks))
+    } catch {
+      // 容量超過やプライベートモードなどで保存できない場合は無視する
+    }
+  }, [tasks])
   const [text, setText] = useState('')
 
   const addTask = (e) => {

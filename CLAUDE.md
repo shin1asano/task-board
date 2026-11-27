@@ -14,7 +14,7 @@
 - Vite 8
 - Lint: oxlint
 - パッケージマネージャ: npm
-- データ保存: なし(タスクはメモリ上の state のみ。リロードで消える)
+- データ保存: ブラウザの localStorage(キー `task-board:tasks`、タスク配列を JSON で保存)
 
 ## 開発コマンド
 
